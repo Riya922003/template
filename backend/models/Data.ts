@@ -25,71 +25,88 @@ export interface IData extends Document {
 const dataSchema: Schema<IData> = new mongoose.Schema({
   end_year: {
     type: String,
+    required: false,
     default: ""
   },
   intensity: {
     type: Number,
-    // required: true
+    required: false,
+    default: 0
   },
   sector: {
     type: String,
+    required: false,
     default: ""
   },
   topic: {
     type: String,
+    required: false,
     default: ""
   },
   insight: {
     type: String,
+    required: false,
     default: ""
   },
   url: {
     type: String,
+    required: false,
     default: ""
   },
   region: {
     type: String,
+    required: false,
     default: ""
   },
   start_year: {
     type: String,
+    required: false,
     default: ""
   },
   impact: {
     type: String,
+    required: false,
     default: ""
   },
   added: {
     type: String,
-    // required: true
+    required: false,
+    default: () => new Date().toISOString()
   },
   published: {
     type: String,
+    required: false,
     default: ""
   },
   country: {
     type: String,
+    required: false,
     default: ""
   },
   relevance: {
     type: Number,
-    // required: true
+    required: false,
+    default: 0
   },
   pestle: {
     type: String,
+    required: false,
     default: ""
   },
   source: {
     type: String,
+    required: false,
     default: ""
   },
   title: {
     type: String,
-    // required: true
+    required: false,
+    default: "Untitled"
   },
   likelihood: {
     type: Number,
-    // required: true
+    required: false,
+    default: 0
   }
 }, {
   timestamps: true
