@@ -80,7 +80,7 @@ export default function WorldMap() {
           })
           .attr('stroke', '#fff')
           .attr('stroke-width', 0.5)
-          .on('mouseover', function(event: MouseEvent, d) {
+          .on('mouseover', function(_, d) {
             const found = staticData.find(c => c.code === Number(d.id))
             if (found) {
               tooltip
