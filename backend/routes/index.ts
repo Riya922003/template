@@ -2,6 +2,7 @@ import express, { Request, Response, Router } from 'express';
 
 // Import route modules
 import dataRoutes from './dataRoutes';
+import analyticsRoutes from './analyticsRoutes';
 
 const router: Router = express.Router();
 
@@ -17,5 +18,6 @@ router.get('/', (req: Request, res: Response) => {
 
 // Route definitions
 router.use('/api/data', dataRoutes);
+router.use('/api/analytics', analyticsRoutes);
 
 export default router;
