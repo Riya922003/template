@@ -112,7 +112,7 @@ export default function WorldMap() {
           })
           .attr('stroke', '#fff')
           .attr('stroke-width', 0.5)
-          .on('mouseover', function(event: MouseEvent, d: any) {
+          .on('mouseover', function(_, d: any) {
             const name = d.properties?.name
             const found = countryLookup[name]
             if (found) {
