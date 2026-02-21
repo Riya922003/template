@@ -5,6 +5,7 @@ import YearLine from './components/charts/YearLine'
 import PestRadar from './components/charts/PestRadar'
 import ScatterPlot from './components/charts/ScatterPlot'
 import RegionBar from './components/charts/RegionBar'
+import WorldMap from './components/charts/WorldMap'
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
       <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
         <PestRadar />
         <ScatterPlot />
+      </div>
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+        <WorldMap />
       </div>
     </div>
   )
