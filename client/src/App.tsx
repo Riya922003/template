@@ -1,35 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import KPICards from './components/charts/temp'
+import SectorDonut from './components/charts/SectorDonut'
+import TopicBar from './components/charts/TopicBar'
+import YearLine from './components/charts/YearLine'
+import PestRadar from './components/charts/PestRadar'
+import ScatterPlot from './components/charts/ScatterPlot'
+import RegionBar from './components/charts/RegionBar'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div style={{ padding: '20px' }}>
+      <KPICards />
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+        <SectorDonut />
+        <TopicBar />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+        <YearLine />
+        <RegionBar />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+        <PestRadar />
+        <ScatterPlot />
+      </div>
+    </div>
   )
 }
-
-export default App
