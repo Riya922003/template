@@ -1,32 +1,56 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as d3 from 'd3'
 import * as topojson from 'topojson-client'
 import type { Topology, Objects } from 'topojson-specification'
 
-interface CountryData {
+interface CountryItem {
   country: string
-  code: number
   count: number
+  avgIntensity: number
 }
 
-const staticData: CountryData[] = [
-  { country: 'USA', code: 840, count: 120 },
-  { country: 'China', code: 156, count: 80 },
-  { country: 'India', code: 356, count: 60 },
-  { country: 'Russia', code: 643, count: 45 },
-  { country: 'Brazil', code: 76, count: 30 },
-  { country: 'Germany', code: 276, count: 25 },
-  { country: 'UK', code: 826, count: 40 },
-  { country: 'France', code: 250, count: 20 },
-  { country: 'Australia', code: 36, count: 15 },
-  { country: 'Canada', code: 124, count: 35 },
-]
+// Map country names from your DB to match topojson country names
+const countryNameMap: Record<string, string> = {
+  'United States of America': 'United States of America',
+  'USA': 'United States of America',
+  'UK': 'United Kingdom',
+  'Russia': 'Russia',
+  'China': 'China',
+  'India': 'India',
+  'Brazil': 'Brazil',
+  'Germany': 'Germany',
+  'France': 'France',
+  'Australia': 'Australia',
+  'Canada': 'Canada',
+  'Japan': 'Japan',
+  'South Korea': 'South Korea',
+  'Mexico': 'Mexico',
+  'Indonesia': 'Indonesia',
+  'Saudi Arabia': 'Saudi Arabia',
+}
 
 export default function WorldMap() {
   const svgRef = useRef<SVGSVGElement>(null)
+  const [countries, setCountries] = useState<CountryItem[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
+  // Fetch real country data
   useEffect(() => {
-    if (!svgRef.current) return
+    fetch(`${import.meta.env.VITE_API_URL}/api/analytics/countries`)
+      .then(res => res.json())
+      .then(json => {
+        setCountries(json.data)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.error('Error fetching countries:', err)
+        setLoading(false)
+      })
+  }, [])
+
+  // Draw map when data is ready
+  useEffect(() => {
+    if (loading || !svgRef.current || countries.length === 0) return
 
     d3.select(svgRef.current).selectAll('*').remove()
 
@@ -37,7 +61,7 @@ export default function WorldMap() {
       .attr('width', width)
       .attr('height', height)
 
-    const maxCount = d3.max(staticData, (d: CountryData) => d.count) ?? 100
+    const maxCount = d3.max(countries, (d: CountryItem) => d.count) ?? 100
 
     const colorScale = d3.scaleSequential()
       .domain([0, maxCount])
@@ -65,27 +89,40 @@ export default function WorldMap() {
     fetch('/countries-110m.json')
       .then(res => res.json())
       .then((world: Topology<Objects>) => {
-        const countries = topojson.feature(world, world.objects.countries)
+        const countriesGeo = topojson.feature(world, world.objects.countries)
 
-        if (countries.type !== 'FeatureCollection') return
+        if (countriesGeo.type !== 'FeatureCollection') return
+
+        // Build a lookup map for fast access
+        const countryLookup: Record<string, CountryItem> = {}
+        countries.forEach(c => {
+          const mappedName = countryNameMap[c.country] || c.country
+          countryLookup[mappedName] = c
+        })
 
         svg.selectAll<SVGPathElement, d3.GeoPermissibleObjects>('path')
-          .data(countries.features)
+          .data(countriesGeo.features)
           .enter()
           .append('path')
           .attr('d', (d) => pathGenerator(d) ?? '')
-          .attr('fill', (d) => {
-            const found = staticData.find(c => c.code === Number(d.id))
+          .attr('fill', (d: any) => {
+            const name = d.properties?.name
+            const found = countryLookup[name]
             return found ? colorScale(found.count) : '#e8e8e8'
           })
           .attr('stroke', '#fff')
           .attr('stroke-width', 0.5)
-          .on('mouseover', function(_, d) {
-            const found = staticData.find(c => c.code === Number(d.id))
+          .on('mouseover', function(event: MouseEvent, d: any) {
+            const name = d.properties?.name
+            const found = countryLookup[name]
             if (found) {
               tooltip
                 .style('display', 'block')
-                .html(`<strong>${found.country}</strong><br/>Insights: ${found.count}`)
+                .html(`
+                  <strong>${found.country}</strong><br/>
+                  Insights: ${found.count}<br/>
+                  Avg Intensity: ${found.avgIntensity}
+                `)
             }
           })
           .on('mousemove', function(event: MouseEvent) {
@@ -101,7 +138,9 @@ export default function WorldMap() {
     return () => {
       d3.selectAll('.map-tooltip').remove()
     }
-  }, [])
+  }, [countries, loading])
+
+  if (loading) return <div>Loading map...</div>
 
   return (
     <div style={{ background: 'white', borderRadius: '10px', padding: '20px' }}>
