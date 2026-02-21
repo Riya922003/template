@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, BarElement, Tooltip, Legend } from 'chart.js'
+import { useFilters } from '../../context/FilterContext'
 
 Chart.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
@@ -13,9 +14,23 @@ interface CityItem {
 export default function CityBar() {
   const [cities, setCities] = useState<CityItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const { filters } = useFilters()
+
+  // Build query params from filters
+  const buildParams = () => {
+    const params = new URLSearchParams()
+    Object.entries(filters).forEach(([key, val]) => {
+      if (val) params.append(key, val)
+    })
+    return params.toString()
+  }
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/analytics/cities`)
+    setLoading(true)
+    const queryString = buildParams()
+    const url = `${import.meta.env.VITE_API_URL}/api/analytics/cities${queryString ? `?${queryString}` : ''}`
+    
+    fetch(url)
       .then(res => res.json())
       .then(json => {
         setCities(json.data)
@@ -25,7 +40,7 @@ export default function CityBar() {
         console.error('Error fetching cities:', err)
         setLoading(false)
       })
-  }, [])
+  }, [filters]) // Re-fetch when filters change
 
   if (loading) return <div>Loading...</div>
 

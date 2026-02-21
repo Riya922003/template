@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Line } from 'react-chartjs-2'
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler } from 'chart.js'
+import { useFilters } from '../../context/FilterContext'
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, Filler)
 
@@ -13,9 +14,23 @@ interface YearItem {
 export default function YearLine() {
   const [years, setYears] = useState<YearItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const { filters } = useFilters()
+
+  // Build query params from filters
+  const buildParams = () => {
+    const params = new URLSearchParams()
+    Object.entries(filters).forEach(([key, val]) => {
+      if (val) params.append(key, val)
+    })
+    return params.toString()
+  }
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/analytics/years`)
+    setLoading(true)
+    const queryString = buildParams()
+    const url = `${import.meta.env.VITE_API_URL}/api/analytics/years${queryString ? `?${queryString}` : ''}`
+    
+    fetch(url)
       .then(res => res.json())
       .then(json => {
         setYears(json.data)
@@ -25,7 +40,7 @@ export default function YearLine() {
         console.error('Error fetching years:', err)
         setLoading(false)
       })
-  }, [])
+  }, [filters]) // Re-fetch when filters change
 
   if (loading) return <div>Loading...</div>
 

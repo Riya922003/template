@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Scatter } from 'react-chartjs-2'
 import { Chart, LinearScale, PointElement, Tooltip, Legend } from 'chart.js'
+import { useFilters } from '../../context/FilterContext'
 
 Chart.register(LinearScale, PointElement, Tooltip, Legend)
 
@@ -15,9 +16,23 @@ interface ScatterItem {
 export default function ScatterPlot() {
   const [scatterData, setScatterData] = useState<ScatterItem[]>([])
   const [loading, setLoading] = useState<boolean>(true)
+  const { filters } = useFilters()
+
+  // Build query params from filters
+  const buildParams = () => {
+    const params = new URLSearchParams()
+    Object.entries(filters).forEach(([key, val]) => {
+      if (val) params.append(key, val)
+    })
+    return params.toString()
+  }
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/analytics/scatter`)
+    setLoading(true)
+    const queryString = buildParams()
+    const url = `${import.meta.env.VITE_API_URL}/api/analytics/scatter${queryString ? `?${queryString}` : ''}`
+    
+    fetch(url)
       .then(res => res.json())
       .then(json => {
         setScatterData(json.data)
@@ -27,7 +42,7 @@ export default function ScatterPlot() {
         console.error('Error fetching scatter data:', err)
         setLoading(false)
       })
-  }, [])
+  }, [filters]) // Re-fetch when filters change
 
   if (loading) return <div>Loading...</div>
 

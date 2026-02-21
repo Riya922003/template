@@ -85,13 +85,15 @@ exports.getDataById = getDataById;
 const getFilters = async (req, res) => {
     try {
         console.log('getFilters function called');
-        const [sectors, topics, regions, countries, sources, pestles] = await Promise.all([
+        const [sectors, topics, regions, countries, sources, pestles, years, cities] = await Promise.all([
             Data_1.default.distinct('sector').then(arr => arr.filter(item => item && item.trim() !== '')),
             Data_1.default.distinct('topic').then(arr => arr.filter(item => item && item.trim() !== '')),
             Data_1.default.distinct('region').then(arr => arr.filter(item => item && item.trim() !== '')),
             Data_1.default.distinct('country').then(arr => arr.filter(item => item && item.trim() !== '')),
             Data_1.default.distinct('source').then(arr => arr.filter(item => item && item.trim() !== '')),
-            Data_1.default.distinct('pestle').then(arr => arr.filter(item => item && item.trim() !== ''))
+            Data_1.default.distinct('pestle').then(arr => arr.filter(item => item && item.trim() !== '')),
+            Data_1.default.distinct('end_year').then(vals => vals.filter((v) => typeof v === 'string' && v !== '').sort()),
+            Data_1.default.distinct('city').then(vals => vals.filter((v) => typeof v === 'string' && v !== '').sort())
         ]);
         res.json({
             success: true,
@@ -101,7 +103,9 @@ const getFilters = async (req, res) => {
                 regions: regions.sort(),
                 countries: countries.sort(),
                 sources: sources.sort(),
-                pestles: pestles.sort()
+                pestles: pestles.sort(),
+                years,
+                cities
             }
         });
     }

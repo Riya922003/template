@@ -100,13 +100,15 @@ export const getFilters = async (req: Request, res: Response): Promise<void> => 
   try {
     console.log('getFilters function called'); // Debug log
     
-    const [sectors, topics, regions, countries, sources, pestles] = await Promise.all([
+    const [sectors, topics, regions, countries, sources, pestles, years, cities] = await Promise.all([
       Data.distinct('sector').then(arr => arr.filter(item => item && item.trim() !== '')),
       Data.distinct('topic').then(arr => arr.filter(item => item && item.trim() !== '')),
       Data.distinct('region').then(arr => arr.filter(item => item && item.trim() !== '')),
       Data.distinct('country').then(arr => arr.filter(item => item && item.trim() !== '')),
       Data.distinct('source').then(arr => arr.filter(item => item && item.trim() !== '')),
-      Data.distinct('pestle').then(arr => arr.filter(item => item && item.trim() !== ''))
+      Data.distinct('pestle').then(arr => arr.filter(item => item && item.trim() !== '')),
+      Data.distinct('end_year').then(vals => vals.filter((v: unknown): v is string => typeof v === 'string' && v !== '').sort()),
+      Data.distinct('city').then(vals => vals.filter((v: unknown): v is string => typeof v === 'string' && v !== '').sort())
     ]);
 
     res.json({
@@ -117,7 +119,9 @@ export const getFilters = async (req: Request, res: Response): Promise<void> => 
         regions: regions.sort(),
         countries: countries.sort(),
         sources: sources.sort(),
-        pestles: pestles.sort()
+        pestles: pestles.sort(),
+        years,
+        cities
       }
     });
   } catch (error: any) {

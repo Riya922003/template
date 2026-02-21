@@ -20,22 +20,20 @@ export default function Sidebar() {
     pestles: [], sources: [], countries: [], cities: []
   })
 
-  // Fetch filter options once on mount
- useEffect(() => {
+useEffect(() => {
   fetch(`${import.meta.env.VITE_API_URL}/api/data/filters`)
     .then(res => res.json())
     .then(json => {
-      console.log('Filters response:', json) // check what's coming
-      const data = json.data || json // handle both formats
+      console.log('Filters response:', json)
       setOptions({
-        years: data.years || [],
-        topics: data.topics || [],
-        sectors: data.sectors || [],
-        regions: data.regions || [],
-        pestles: data.pestles || [],
-        sources: data.sources || [],
-        countries: data.countries || [],
-        cities: data.cities || []
+        years: json.filters.years || [],
+        topics: json.filters.topics || [],
+        sectors: json.filters.sectors || [],
+        regions: json.filters.regions || [],
+        pestles: json.filters.pestles || [],
+        sources: json.filters.sources || [],
+        countries: json.filters.countries || [],
+        cities: json.filters.cities || []
       })
     })
     .catch(err => console.error('Error fetching filters:', err))
