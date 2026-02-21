@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useFilters } from '../../context/FilterContext'
 
 interface KPIData {
   totalInsights: number
@@ -14,6 +15,7 @@ interface Card {
 }
 
 export default function KPICards() {
+  const { filters } = useFilters()
   const [kpiData, setKpiData] = useState<KPIData>({
     totalInsights: 0,
     avgIntensity: 0,
@@ -23,7 +25,21 @@ export default function KPICards() {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/analytics/kpi`)
+    const queryParams = new URLSearchParams()
+    
+    // Add filters to query params
+    if (filters.topic) queryParams.append('topic', filters.topic)
+    if (filters.sector) queryParams.append('sector', filters.sector)
+    if (filters.region) queryParams.append('region', filters.region)
+    if (filters.country) queryParams.append('country', filters.country)
+    if (filters.pestle) queryParams.append('pestle', filters.pestle)
+    if (filters.source) queryParams.append('source', filters.source)
+    if (filters.end_year) queryParams.append('end_year', filters.end_year)
+    if (filters.city) queryParams.append('city', filters.city)
+
+    const url = `${import.meta.env.VITE_API_URL}/api/analytics/kpi${queryParams.toString() ? `?${queryParams.toString()}` : ''}`
+
+    fetch(url)
       .then(res => res.json())
       .then(json => {
         setKpiData(json.data)
@@ -33,7 +49,7 @@ export default function KPICards() {
         console.error('Error fetching KPI data:', err)
         setLoading(false)
       })
-  }, [])
+  }, [filters])
 
   const cards: Card[] = [
     { label: 'Total Insights', value: kpiData.totalInsights, color: '#7367f0' },
