@@ -44,6 +44,18 @@ export default function YearLine() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && years.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px', textAlign: 'center' }}>
+        <h3>Insights Over Years</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     labels: years.map(y => y.year),
     datasets: [
@@ -99,7 +111,7 @@ export default function YearLine() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px' }}>
       <h3>Insights Over Years</h3>
       <Line data={data} options={options} />
     </div>

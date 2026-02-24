@@ -142,10 +142,22 @@ export default function WorldMap() {
 
   if (loading) return <div>Loading map...</div>
 
+  // Show empty state message when no data
+  if (!loading && countries.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', textAlign: 'center' }}>
+        <h3>Insights by Country</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%' }}>
       <h3>Insights by Country</h3>
-      <svg ref={svgRef} />
+      <svg ref={svgRef} style={{ width: '100%', height: 'auto' }} />
     </div>
   )
 }

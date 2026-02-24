@@ -44,6 +44,18 @@ export default function RegionBar() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && regions.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px', textAlign: 'center' }}>
+        <h3>Likelihood by Region</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     labels: regions.map(r => r.region),
     datasets: [
@@ -95,7 +107,7 @@ export default function RegionBar() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px' }}>
       <h3>Likelihood by Region</h3>
       <Bar data={data} options={options} />
     </div>

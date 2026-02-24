@@ -44,11 +44,14 @@ export default function CityBar() {
 
   if (loading) return <div>Loading...</div>
 
-  if (cities.length === 0) {
+  // Show empty state message when no data
+  if (!loading && cities.length === 0) {
     return (
-      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px', textAlign: 'center' }}>
         <h3>Insights by City</h3>
-        <p style={{ color: '#888' }}>No city data available</p>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
       </div>
     )
   }
@@ -104,7 +107,7 @@ export default function CityBar() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px' }}>
       <h3>Insights by City</h3>
       <Bar data={data} options={options} />
     </div>

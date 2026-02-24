@@ -44,6 +44,18 @@ export default function PestRadar() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && pestle.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px', textAlign: 'center' }}>
+        <h3>PEST Analysis</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     labels: pestle.map(p => p.pestle),
     datasets: [
@@ -90,7 +102,7 @@ export default function PestRadar() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '400px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px' }}>
       <h3>PEST Analysis</h3>
       <Radar data={data} options={options} />
     </div>

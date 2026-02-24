@@ -46,6 +46,18 @@ export default function ScatterPlot() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && scatterData.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px', textAlign: 'center' }}>
+        <h3>Likelihood vs Relevance</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     datasets: [{
       label: 'Likelihood vs Relevance',
@@ -92,7 +104,7 @@ export default function ScatterPlot() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '350px' }}>
       <h3>Likelihood vs Relevance</h3>
       {/* Legend for intensity colors */}
       <div style={{ display: 'flex', gap: '16px', marginBottom: '10px', fontSize: '12px' }}>

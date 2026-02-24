@@ -44,6 +44,18 @@ export default function SectorDonut() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && sectors.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px', textAlign: 'center' }}>
+        <h3>Sector Breakdown</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     labels: sectors.map(s => s.sector),
     datasets: [{
@@ -73,7 +85,7 @@ export default function SectorDonut() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '350px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px' }}>
       <h3>Sector Breakdown</h3>
       <Doughnut data={data} options={options} />
     </div>

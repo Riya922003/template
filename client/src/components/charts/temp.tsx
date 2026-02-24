@@ -74,6 +74,26 @@ export default function KPICards() {
     )
   }
 
+  // Show empty state message when no data (totalInsights is 0)
+  if (!loading && kpiData.totalInsights === 0) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        background: 'white', 
+        borderRadius: '10px', 
+        padding: '40px',
+        width: '100%',
+        textAlign: 'center'
+      }}>
+        <div style={{ color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
       {cards.map((card: Card) => (

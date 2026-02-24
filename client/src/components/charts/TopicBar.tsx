@@ -44,6 +44,18 @@ export default function TopicBar() {
 
   if (loading) return <div>Loading...</div>
 
+  // Show empty state message when no data
+  if (!loading && topics.length === 0) {
+    return (
+      <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px', textAlign: 'center' }}>
+        <h3>Intensity by Topic</h3>
+        <div style={{ padding: '40px', color: '#666', fontSize: '16px' }}>
+          No data available for selected filters
+        </div>
+      </div>
+    )
+  }
+
   const data = {
     labels: topics.map(t => t.topic),
     datasets: [{
@@ -77,7 +89,7 @@ export default function TopicBar() {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '450px' }}>
+    <div style={{ background: 'white', borderRadius: '10px', padding: '20px', width: '100%', minHeight: '300px' }}>
       <h3>Intensity by Topic</h3>
       <Bar data={data} options={options} />
     </div>

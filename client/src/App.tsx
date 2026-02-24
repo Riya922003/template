@@ -1,4 +1,4 @@
-import KPICards from './components/charts/temp'
+import KPISlideshow from './components/charts/KPISlideshow'
 import SectorDonut from './components/charts/SectorDonut'
 import TopicBar from './components/charts/TopicBar'
 import YearLine from './components/charts/YearLine'
@@ -6,41 +6,70 @@ import PestRadar from './components/charts/PestRadar'
 import ScatterPlot from './components/charts/ScatterPlot'
 import RegionBar from './components/charts/RegionBar'
 import WorldMap from './components/charts/WorldMap'
-import CityBar from './components/charts/CityBar'
+import DataTable from './components/DataTable'
 import { FilterProvider } from './context/FilterContext'
 import Sidebar from './components/Sidebar'
 
 export default function App() {
   return (
     <FilterProvider>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
         
         {/* Sidebar on the left */}
         <Sidebar />
 
-        {/* Main content pushed right */}
-        <div style={{ marginLeft: '260px', padding: '20px', flex: 1 }}>
+        {/* Main content with optimized layout */}
+        <div style={{ 
+          marginLeft: '260px', 
+          padding: '20px', 
+          flex: 1,
+          maxWidth: 'calc(100vw - 280px)',
+          overflow: 'hidden'
+        }}>
           
-          <KPICards />
-
-          <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+          {/* First row - Sector Breakdown, PEST Analysis, KPI Slideshow with System Status */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr 1fr', 
+            gap: '20px', 
+            marginBottom: '20px' 
+          }}>
             <SectorDonut />
-            <TopicBar />
-            <CityBar />
-          </div>
-
-          <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-            <YearLine />
-            <RegionBar />
-          </div>
-
-          <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
             <PestRadar />
+            <KPISlideshow />
+          </div>
+
+          {/* Second row - Intensity by Topic, Insights Over Years */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr', 
+            gap: '20px', 
+            marginBottom: '20px' 
+          }}>
+            <TopicBar />
+            <YearLine />
+          </div>
+
+          {/* Third row - Likelihood by Region, Likelihood vs Relevance */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr', 
+            gap: '20px', 
+            marginBottom: '20px' 
+          }}>
+            <RegionBar />
             <ScatterPlot />
           </div>
 
-          <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
+          {/* Fourth row - World Map and DataTable */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr', 
+            gap: '20px', 
+            marginBottom: '20px' 
+          }}>
             <WorldMap />
+            <DataTable />
           </div>
 
         </div>
