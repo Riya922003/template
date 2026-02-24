@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import KPISlideshow from './components/charts/KPISlideshow'
 import SectorDonut from './components/charts/SectorDonut'
 import TopicBar from './components/charts/TopicBar'
@@ -11,20 +12,23 @@ import { FilterProvider } from './context/FilterContext'
 import Sidebar from './components/Sidebar'
 
 export default function App() {
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+
   return (
     <FilterProvider>
       <div style={{ display: 'flex', minHeight: '100vh' }}>
         
-        {/* Sidebar on the left */}
-        <Sidebar />
+        {/* Sidebar */}
+        <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
 
-        {/* Main content with optimized layout */}
+        {/* Main content with dynamic margin */}
         <div style={{ 
-          marginLeft: '260px', 
+          marginLeft: sidebarOpen ? '260px' : '60px',
           padding: '20px', 
           flex: 1,
-          maxWidth: 'calc(100vw - 280px)',
-          overflow: 'hidden'
+          maxWidth: sidebarOpen ? 'calc(100vw - 280px)' : 'calc(100vw - 80px)',
+          overflow: 'hidden',
+          transition: 'margin-left 0.3s ease, max-width 0.3s ease'
         }}>
           
           {/* Header with Search Bar */}
