@@ -42,7 +42,16 @@ export default function RegionBar() {
       })
   }, [filters]) // Re-fetch when filters change
 
-  if (loading) return <div>Loading...</div>
+  if (loading) return (
+    <div style={{
+      width: '100%',
+      height: '350px',
+      borderRadius: '10px',
+      background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+      backgroundSize: '200% 100%',
+      animation: 'shimmer 1.5s infinite'
+    }} />
+  )
 
   // Show empty state message when no data
   if (!loading && regions.length === 0) {

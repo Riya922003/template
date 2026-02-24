@@ -140,7 +140,16 @@ export default function WorldMap() {
     }
   }, [countries, loading])
 
-  if (loading) return <div>Loading map...</div>
+  if (loading) return (
+    <div style={{
+      width: '100%',
+      height: '400px',
+      borderRadius: '10px',
+      background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+      backgroundSize: '200% 100%',
+      animation: 'shimmer 1.5s infinite'
+    }} />
+  )
 
   // Show empty state message when no data
   if (!loading && countries.length === 0) {

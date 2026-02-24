@@ -104,172 +104,35 @@ export default function KPISlideshow() {
   if (loading) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {/* User Card - Same size as KPI card */}
+        {/* User Card Shimmer */}
         <div style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: '20px',
-          padding: '30px',
-          color: 'white',
+          width: '100%',
           height: '160px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <div style={{
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontSize: '24px',
-              fontWeight: '700',
-              border: '2px solid rgba(255, 255, 255, 0.3)'
-            }}>
-              DA
-            </div>
-            <div>
-              <div style={{ fontSize: '24px', fontWeight: '600', marginBottom: '4px' }}>
-                Data Analyst
-              </div>
-              <div style={{ fontSize: '16px', opacity: 0.9 }}>
-                Dashboard Overview
-              </div>
-            </div>
-          </div>
-          
-          {/* Decorative elements */}
-          <div style={{
-            position: 'absolute',
-            right: '20px',
-            top: '20px',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
-          }} />
-          
-          <div style={{
-            position: 'absolute',
-            bottom: '20px',
-            right: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: '#28c76f'
-            }} />
-            <span style={{ fontSize: '12px', opacity: 0.8 }}>Online</span>
-          </div>
-        </div>
+          borderRadius: '20px',
+          background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite'
+        }} />
 
-        {/* System Status Card */}
+        {/* System Status Card Shimmer */}
         <div style={{
-          background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-          borderRadius: '20px',
-          padding: '30px',
-          color: 'white',
+          width: '100%',
           height: '160px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Decorative sphere */}
-          <div style={{
-            position: 'absolute',
-            right: '20px',
-            top: '20px',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)'
-          }} />
+          borderRadius: '20px',
+          background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite'
+        }} />
 
-          <div>
-            <h3 style={{ 
-              margin: '0 0 6px 0', 
-              fontSize: '20px', 
-              fontWeight: '600' 
-            }}>
-              System Status
-            </h3>
-            <p style={{ 
-              margin: 0, 
-              fontSize: '14px', 
-              opacity: 0.9 
-            }}>
-              All systems operational
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'flex', 
-            gap: '30px',
-            marginTop: '16px'
-          }}>
-            <div>
-              <div style={{ 
-                fontSize: '24px', 
-                fontWeight: '700',
-                marginBottom: '2px'
-              }}>
-                99.9%
-              </div>
-              <div style={{ 
-                fontSize: '12px', 
-                opacity: 0.8 
-              }}>
-                Uptime
-              </div>
-            </div>
-            <div>
-              <div style={{ 
-                fontSize: '24px', 
-                fontWeight: '700',
-                marginBottom: '2px'
-              }}>
-                Active
-              </div>
-              <div style={{ 
-                fontSize: '12px', 
-                opacity: 0.8 
-              }}>
-                Status
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Loading KPI Card */}
+        {/* KPI Card Shimmer */}
         <div style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          borderRadius: '20px',
-          padding: '30px',
-          color: 'white',
+          width: '100%',
           height: '160px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          <div>Loading...</div>
-        </div>
+          borderRadius: '20px',
+          background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite'
+        }} />
       </div>
     )
   }

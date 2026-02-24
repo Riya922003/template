@@ -119,9 +119,14 @@ export default function DataTable() {
 
       {/* Table */}
       {loading ? (
-        <div style={{ textAlign: 'center', padding: '40px', color: '#888' }}>
-          Loading...
-        </div>
+        <div style={{
+          width: '100%',
+          height: '300px',
+          borderRadius: '10px',
+          background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+          backgroundSize: '200% 100%',
+          animation: 'shimmer 1.5s infinite'
+        }} />
       ) : data.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px', color: '#888' }}>
           No data matches selected filters
